@@ -1,0 +1,1114 @@
+_<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML5 완전 정복 - 초보자 학습 가이드</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;500;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0a0f;
+            --surface: #12121a;
+            --surface-hover: #1a1a28;
+            --border: #2a2a3d;
+            --text: #e8e6f0;
+            --text-dim: #8a88a0;
+            --accent: #f0b429;
+            --accent-dim: #c4912a;
+            --code-bg: #161620;
+            --tag: #ff6b9d;
+            --attr: #7dd3fc;
+            --value: #86efac;
+            --comment: #6b7280;
+            --section-num: #f0b429;
+            --tip-bg: #1a2332;
+            --tip-border: #2563eb;
+            --warn-bg: #2a1f1a;
+            --warn-border: #f59e0b;
+            --practice-bg: #1a2a1a;
+            --practice-border: #22c55e;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.8;
+            font-size: 15px;
+        }
+
+        /* Hero */
+        .hero {
+            position: relative;
+            padding: 80px 40px 60px;
+            text-align: center;
+            background: linear-gradient(135deg, #0a0a1a 0%, #1a1028 50%, #0a0a1a 100%);
+            border-bottom: 1px solid var(--border);
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 50%, rgba(240,180,41,0.06) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 50%, rgba(255,107,157,0.04) 0%, transparent 50%);
+            animation: float 20s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(-2%, 2%); }
+        }
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--accent), #ff6b9d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+            margin-bottom: 12px;
+        }
+        .hero .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-dim);
+            font-weight: 300;
+            position: relative;
+        }
+        .hero .badge {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 6px 18px;
+            background: rgba(240,180,41,0.1);
+            border: 1px solid rgba(240,180,41,0.3);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: var(--accent);
+            position: relative;
+        }
+
+        /* Container */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* TOC */
+        .toc {
+            margin: 48px auto;
+            max-width: 900px;
+            padding: 0 24px;
+        }
+        .toc h2 {
+            font-size: 1.3rem;
+            color: var(--accent);
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        .toc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 12px;
+        }
+        .toc-item {
+            padding: 14px 18px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            font-size: 0.9rem;
+            color: var(--text-dim);
+            transition: all 0.2s;
+            cursor: default;
+        }
+        .toc-item:hover {
+            border-color: var(--accent);
+            color: var(--text);
+            background: var(--surface-hover);
+        }
+        .toc-item .num {
+            color: var(--accent);
+            font-weight: 700;
+            margin-right: 8px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Section */
+        .section {
+            margin: 56px auto;
+            max-width: 900px;
+            padding: 0 24px;
+        }
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 28px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid var(--border);
+        }
+        .section-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--accent);
+            line-height: 1;
+            opacity: 0.7;
+        }
+        .section-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+        }
+
+        /* Subsection */
+        .subsection {
+            margin-bottom: 40px;
+        }
+        .subsection h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 14px;
+            padding-left: 14px;
+            border-left: 3px solid var(--accent);
+        }
+
+        /* Paragraph */
+        p {
+            margin-bottom: 14px;
+            color: var(--text);
+        }
+        p.dim { color: var(--text-dim); }
+
+        /* Inline code */
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--code-bg);
+            padding: 2px 7px;
+            border-radius: 4px;
+            font-size: 0.88em;
+            color: var(--tag);
+            border: 1px solid var(--border);
+        }
+
+        /* Code block */
+        .code-block {
+            background: var(--code-bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 20px 24px;
+            margin: 16px 0 24px;
+            overflow-x: auto;
+            position: relative;
+        }
+        .code-block .filename {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: var(--accent);
+            color: var(--bg);
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 3px 12px;
+            border-radius: 0 10px 0 8px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .code-block pre {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            line-height: 1.7;
+            white-space: pre;
+            color: var(--text);
+        }
+        .t { color: var(--tag); }       /* tag */
+        .a { color: var(--attr); }      /* attribute */
+        .v { color: var(--value); }      /* value */
+        .c { color: var(--comment); font-style: italic; }  /* comment */
+        .tx { color: var(--text); }      /* text content */
+
+        /* Info boxes */
+        .box {
+            border-radius: 10px;
+            padding: 18px 22px;
+            margin: 18px 0 24px;
+            border-left: 4px solid;
+        }
+        .box-tip {
+            background: var(--tip-bg);
+            border-color: var(--tip-border);
+        }
+        .box-warn {
+            background: var(--warn-bg);
+            border-color: var(--warn-border);
+        }
+        .box-practice {
+            background: var(--practice-bg);
+            border-color: var(--practice-border);
+        }
+        .box .box-title {
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+        .box-tip .box-title { color: #60a5fa; }
+        .box-warn .box-title { color: #fbbf24; }
+        .box-practice .box-title { color: #4ade80; }
+        .box p { margin-bottom: 6px; font-size: 0.92rem; }
+
+        /* Table */
+        .tag-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0 24px;
+            font-size: 0.9rem;
+        }
+        .tag-table th {
+            background: rgba(240,180,41,0.12);
+            color: var(--accent);
+            text-align: left;
+            padding: 10px 14px;
+            border-bottom: 2px solid var(--accent-dim);
+            font-weight: 700;
+        }
+        .tag-table td {
+            padding: 10px 14px;
+            border-bottom: 1px solid var(--border);
+            vertical-align: top;
+        }
+        .tag-table tr:hover td {
+            background: var(--surface-hover);
+        }
+        .tag-table td:first-child {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--tag);
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        /* Comparison */
+        .compare {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin: 16px 0;
+        }
+        @media (max-width: 640px) {
+            .compare { grid-template-columns: 1fr; }
+        }
+        .compare > div {
+            padding: 16px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: var(--surface);
+        }
+        .compare .label {
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .compare .good .label { color: #4ade80; }
+        .compare .bad .label { color: #f87171; }
+
+        /* Divider */
+        .divider {
+            height: 1px;
+            background: var(--border);
+            margin: 48px 0;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 40px 24px;
+            color: var(--text-dim);
+            font-size: 0.8rem;
+            border-top: 1px solid var(--border);
+            margin-top: 60px;
+        }
+
+        /* 추가 강조 */
+        strong { color: var(--accent); font-weight: 700; }
+        em { color: #c4b5fd; font-style: normal; }
+    </style>
+</head>
+<body>
+
+<!-- ===== HERO ===== -->
+<div class="hero">
+    <h1>HTML5 완전 정복</h1>
+    <p class="subtitle">비전공자를 위한 Frontend 첫걸음 - 기본 태그부터 구조화까지</p>
+    <span class="badge">K-디지털 트레이닝 강의 기반 + 추가 보충 정리</span>
+</div>
+
+<!-- ===== TOC ===== -->
+<div class="toc">
+    <h2>학습 목차</h2>
+    <div class="toc-grid">
+        <div class="toc-item"><span class="num">01</span>HTML5 문서의 기본 구조</div>
+        <div class="toc-item"><span class="num">02</span>글자 태그 (제목, 본문, 앵커, 글자 모양)</div>
+        <div class="toc-item"><span class="num">03</span>목록 태그 (ul, ol, 중첩)</div>
+        <div class="toc-item"><span class="num">04</span>테이블 태그 (표 만들기)</div>
+        <div class="toc-item"><span class="num">05</span>미디어 태그 (이미지, 오디오, 비디오)</div>
+        <div class="toc-item"><span class="num">06</span>입력 양식 태그 (form, input 등)</div>
+        <div class="toc-item"><span class="num">07</span>공간 분할 태그 (div, span)</div>
+        <div class="toc-item"><span class="num">08</span>시맨틱 태그 (HTML5 구조화)</div>
+        <div class="toc-item"><span class="num">09</span>VS Code 실습 팁 + 추가 보충</div>
+    </div>
+</div>
+
+<!-- ===================================================================== -->
+<!-- SECTION 1 -->
+<!-- ===================================================================== -->
+<div class="section">
+    <div class="section-header">
+        <span class="section-number">01</span>
+        <h2 class="section-title">HTML5 문서의 기본 구조</h2>
+    </div>
+
+    <p>모든 HTML 파일은 아래의 뼈대(skeleton)로 시작합니다. VS Code에서 <code>!</code>를 입력하고 <code>Tab</code>을 누르면 자동으로 생성됩니다.</p>
+
+    <div class="code-block">
+        <span class="filename">skeleton.html</span>
+<pre><span class="t">&lt;!DOCTYPE html&gt;</span>            <span class="c">&lt;!-- "이 문서는 HTML5입니다" 선언 --&gt;</span>
+<span class="t">&lt;html</span> <span class="a">lang=</span><span class="v">"ko"</span><span class="t">&gt;</span>            <span class="c">&lt;!-- 문서의 시작, 언어 설정 --&gt;</span>
+<span class="t">&lt;head&gt;</span>                       <span class="c">&lt;!-- 브라우저에게 전달하는 정보 영역 --&gt;</span>
+    <span class="t">&lt;meta</span> <span class="a">charset=</span><span class="v">"UTF-8"</span><span class="t">&gt;</span>  <span class="c">&lt;!-- 한글 깨짐 방지 (필수!) --&gt;</span>
+    <span class="t">&lt;title&gt;</span><span class="tx">페이지 제목</span><span class="t">&lt;/title&gt;</span> <span class="c">&lt;!-- 브라우저 탭에 표시되는 이름 --&gt;</span>
+<span class="t">&lt;/head&gt;</span>
+<span class="t">&lt;body&gt;</span>                       <span class="c">&lt;!-- 사용자에게 보이는 내용 영역 --&gt;</span>
+    <span class="tx">여기에 내용을 작성합니다</span>
+<span class="t">&lt;/body&gt;</span>
+<span class="t">&lt;/html&gt;</span></pre>
+    </div>
+
+    <div class="box box-tip">
+        <p class="box-title">핵심 개념</p>
+        <p><strong>&lt;!DOCTYPE html&gt;</strong> → 이 문서가 HTML5라는 것을 브라우저에 알려주는 선언문입니다.</p>
+        <p><strong>&lt;head&gt;</strong> → 사용자 눈에 보이지 않는 메타 정보(문자 인코딩, 제목, CSS 연결 등)를 넣는 곳입니다.</p>
+        <p><strong>&lt;body&gt;</strong> → 사용자 눈에 실제로 보이는 모든 내용이 들어가는 곳입니다.</p>
+    </div>
+
+    <div class="box box-warn">
+        <p class="box-title">초보자 주의</p>
+        <p>태그는 반드시 <strong>열고 닫아야</strong> 합니다. <code>&lt;h1&gt;...&lt;/h1&gt;</code> 처럼요. 단, <code>&lt;br&gt;</code>, <code>&lt;hr&gt;</code>, <code>&lt;img&gt;</code>, <code>&lt;input&gt;</code> 같은 태그는 닫는 태그가 없는 <em>빈 태그(void element)</em>입니다.</p>
+    </div>
+</div>
+
+<!-- ===================================================================== -->
+<!-- SECTION 2 -->
+<!-- ===================================================================== -->
+<div class="section">
+    <div class="section-header">
+        <span class="section-number">02</span>
+        <h2 class="section-title">글자 태그</h2>
+    </div>
+
+    <!-- 2-1 제목/본문 -->
+    <div class="subsection">
+        <h3>제목과 본문 글자 태그</h3>
+        <p>h는 heading(제목), p는 paragraph(단락), br은 break(줄 바꿈), hr은 horizontal rule(수평 줄)의 약자입니다.</p>
+
+        <table class="tag-table">
+            <tr><th>태그</th><th>의미</th><th>특징</th></tr>
+            <tr><td>&lt;h1&gt; ~ &lt;h6&gt;</td><td>제목 (1이 가장 큼)</td><td>블록 요소, 자동 줄바꿈</td></tr>
+            <tr><td>&lt;p&gt;</td><td>문단(본문)</td><td>블록 요소, 문단 사이 간격 자동 생성</td></tr>
+            <tr><td>&lt;br&gt;</td><td>줄 바꿈</td><td>빈 태그 (닫는 태그 없음)</td></tr>
+            <tr><td>&lt;hr&gt;</td><td>수평선</td><td>빈 태그, 내용 구분선으로 사용</td></tr>
+        </table>
+
+        <div class="code-block">
+            <span class="filename">text_basic.html</span>
+<pre><span class="t">&lt;body&gt;</span>
+    <span class="t">&lt;h1&gt;</span><span class="tx">홍차</span><span class="t">&lt;/h1&gt;</span>
+    <span class="t">&lt;hr&gt;</span>
+    <span class="t">&lt;h2&gt;</span><span class="tx">정의</span><span class="t">&lt;/h2&gt;</span>
+    <span class="t">&lt;p&gt;</span><span class="tx">홍차는 백차, 녹차, 우롱차보다 더 많이 발효된 차의 일종이다.</span><span class="t">&lt;/p&gt;</span>
+    <span class="t">&lt;br&gt;</span>
+    <span class="t">&lt;h2&gt;</span><span class="tx">등급</span><span class="t">&lt;/h2&gt;</span>
+    <span class="t">&lt;p&gt;</span><span class="tx">홍차는 여러 가지로 등급이 매겨진다.</span><span class="t">&lt;/p&gt;</span>
+<span class="t">&lt;/body&gt;</span></pre>
+        </div>
+    </div>
+
+    <!-- 2-2 앵커 태그 -->
+    <div class="subsection">
+        <h3>앵커 태그 (a 태그 = 하이퍼링크)</h3>
+        <p><code>&lt;a&gt;</code> 태그는 anchor(닻)의 약자로, 다른 페이지나 같은 페이지 내 특정 위치로 이동하는 링크를 만듭니다. <strong>href</strong> 속성에 이동할 주소를 적어줍니다.</p>
+
+        <div class="code-block">
+            <span class="filename">link_example.html</span>
+<pre><span class="c">&lt;!-- 1. 외부 페이지로 이동 --&gt;</span>
+<span class="t">&lt;a</span> <span class="a">href=</span><span class="v">"https://www.google.com"</span><span class="t">&gt;</span><span class="tx">Google</span><span class="t">&lt;/a&gt;</span>
+
+<span class="c">&lt;!-- 2. 같은 페이지 내부 이동 (id 활용) --&gt;</span>
+<span class="t">&lt;a</span> <span class="a">href=</span><span class="v">"#section1"</span><span class="t">&gt;</span><span class="tx">첫 번째 섹션으로</span><span class="t">&lt;/a&gt;</span>
+...
+<span class="t">&lt;h2</span> <span class="a">id=</span><span class="v">"section1"</span><span class="t">&gt;</span><span class="tx">첫 번째 섹션</span><span class="t">&lt;/h2&gt;</span>
+
+<span class="c">&lt;!-- 3. 빈 링크 (아직 이동할 곳이 없을 때) --&gt;</span>
+<span class="t">&lt;a</span> <span class="a">href=</span><span class="v">"#"</span><span class="t">&gt;</span><span class="tx">메뉴</span><span class="t">&lt;/a&gt;</span></pre>
+        </div>
+
+        <div class="box box-tip">
+            <p class="box-title">핵심 포인트</p>
+            <p><code>href="#아이디"</code> 형태로 페이지 내부 이동이 가능합니다. 이때 대상 요소에 <code>id="아이디"</code>가 있어야 합니다.</p>
+            <p><strong>id 속성은 페이지 내에서 고유</strong>해야 합니다 (중복 사용 금지 = 웹 표준 위반).</p>
+            <p>아직 링크할 곳이 없을 때는 <code>href="#"</code>을 사용하여 웹 표준을 지킵니다.</p>
+        </div>
+
+        <div class="box box-warn">
+            <p class="box-title">추가 보충: target 속성</p>
+            <p>PPT에는 없지만, 실무에서 자주 쓰는 속성입니다.</p>
+            <p><code>&lt;a href="..." target="_blank"&gt;</code> → 새 탭에서 열기</p>
+            <p><code>&lt;a href="..." target="_self"&gt;</code> → 현재 탭에서 열기 (기본값)</p>
+        </div>
+    </div>
+
+    <!-- 2-3 글자 모양 태그 -->
+    <div class="subsection">
+        <h3>글자 모양 태그</h3>
+        <p>텍스트에 시각적 효과를 주는 태그입니다. 단독으로 쓰거나, 제목/본문 태그 안에 넣을 수 있습니다.</p>
+
+        <table class="tag-table">
+            <tr><th>태그</th><th>효과</th><th>영어 원뜻</th></tr>
+            <tr><td>&lt;b&gt;</td><td>굵은 글자</td><td>bold</td></tr>
+            <tr><td>&lt;i&gt;</td><td>기울어진 글자</td><td>italic</td></tr>
+            <tr><td>&lt;small&gt;</td><td>작은 글자</td><td>small</td></tr>
+            <tr><td>&lt;sub&gt;</td><td>아래 첨자</td><td>subscript (예: H₂O)</td></tr>
+            <tr><td>&lt;sup&gt;</td><td>위 첨자</td><td>superscript (예: X²)</td></tr>
+            <tr><td>&lt;ins&gt;</td><td>밑줄 글자</td><td>insert</td></tr>
+            <tr><td>&lt;del&gt;</td><td>취소선 글자</td><td>delete</td></tr>
+        </table>
+
+        <div class="box box-warn">
+            <p class="box-title">주의: 글자 모양 태그 내부에 h1~h6, p 태그를 넣으면 웹 표준 위반!</p>
+            <p>올바른 예: <code>&lt;h1&gt;&lt;b&gt;제목&lt;/b&gt;&lt;/h1&gt;</code> (h1 안에 b를 넣는 것은 OK)</p>
+            <p>잘못된 예: <code>&lt;i&gt;&lt;h1&gt;제목&lt;/h1&gt;&lt;/i&gt;</code> (i 안에 h1 → 웹 표준 위반!)</p>
+        </div>
+
+        <div class="box box-tip">
+            <p class="box-title">추가 보충: 시맨틱한 글자 태그</p>
+            <p>실무에서는 시각적 태그보다 의미를 가진 태그를 선호합니다.</p>
+            <p><code>&lt;strong&gt;</code> = <code>&lt;b&gt;</code>와 동일하게 굵게 표시되지만, "중요한 텍스트"라는 의미를 가짐</p>
+            <p><code>&lt;em&gt;</code> = <code>&lt;i&gt;</code>와 동일하게 기울어지지만, "강조된 텍스트"라는 의미를 가짐</p>
+            <p>검색엔진(SEO)이 <code>&lt;strong&gt;</code>, <code>&lt;em&gt;</code>을 더 잘 인식합니다.</p>
+        </div>
+    </div>
+</div>
+
+<!-- ===================================================================== -->
+<!-- SECTION 3 -->
+<!-- ===================================================================== -->
+<div class="section">
+    <div class="section-header">
+        <span class="section-number">03</span>
+        <h2 class="section-title">목록 태그</h2>
+    </div>
+
+    <p>웹 사이트의 <strong>내비게이션 메뉴</strong>는 목록 태그로 만듭니다. Daum, Naver 같은 사이트의 상단 메뉴가 모두 목록 태그 기반입니다.</p>
+
+    <table class="tag-table">
+        <tr><th>태그</th><th>의미</th><th>결과</th></tr>
+        <tr><td>&lt;ul&gt;</td><td>순서 없는 목록 (unordered list)</td><td>● 점으로 표시</td></tr>
+        <tr><td>&lt;ol&gt;</td><td>순서 있는 목록 (ordered list)</td><td>1. 2. 3. 숫자로 표시</td></tr>
+        <tr><td>&lt;li&gt;</td><td>목록 항목 (list item)</td><td>각 항목 하나</td></tr>
+    </table>
+
+    <div class="compare">
+        <div class="good">
+            <p class="label">순서 없는 목록 (ul)</p>
+            <div class="code-block" style="margin:0">
+<pre><span class="t">&lt;ul&gt;</span>
+    <span class="t">&lt;li&gt;</span><span class="tx">사과</span><span class="t">&lt;/li&gt;</span>
+    <span class="t">&lt;li&gt;</span><span class="tx">바나나</span><span class="t">&lt;/li&gt;</span>
+    <span class="t">&lt;li&gt;</span><span class="tx">오렌지</span><span class="t">&lt;/li&gt;</span>
+<span class="t">&lt;/ul&gt;</span></pre>
+            </div>
+        </div>
+        <div class="good">
+            <p class="label">순서 있는 목록 (ol)</p>
+            <div class="code-block" style="margin:0">
+<pre><span class="t">&lt;ol&gt;</span>
+    <span class="t">&lt;li&gt;</span><span class="tx">사과</span><span class="t">&lt;/li&gt;</span>
+    <span class="t">&lt;li&gt;</span><span class="tx">바나나</span><span class="t">&lt;/li&gt;</span>
+    <span class="t">&lt;li&gt;</span><span class="tx">오렌지</span><span class="t">&lt;/li&gt;</span>
+<span class="t">&lt;/ol&gt;</span></pre>
+            </div>
+        </div>
+    </div>
+
+    <div class="subsection">
+        <h3>중첩 목록 (목록 안에 목록)</h3>
+        <div class="code-block">
+            <span class="filename">list_nested.html</span>
+<pre><span class="t">&lt;ul&gt;</span>
+    <span class="t">&lt;li&gt;</span>
+        <span class="t">&lt;b&gt;</span><span class="tx">과일</span><span class="t">&lt;/b&gt;</span>
+        <span class="t">&lt;ol&gt;</span>
+            <span class="t">&lt;li&gt;</span><span class="tx">사과</span><span class="t">&lt;/li&gt;</span>
+            <span class="t">&lt;li&gt;</span><span class="tx">바나나</span><span class="t">&lt;/li&gt;</span>
+        <span class="t">&lt;/ol&gt;</span>
+    <span class="t">&lt;/li&gt;</span>
+    <span class="t">&lt;li&gt;</span>
+        <span class="t">&lt;b&gt;</span><span class="tx">채소</span><span class="t">&lt;/b&gt;</span>
+        <span class="t">&lt;ol&gt;</span>
+            <span class="t">&lt;li&gt;</span><span class="tx">상추</span><span class="t">&lt;/li&gt;</span>
+            <span class="t">&lt;li&gt;</span><span class="tx">양배추</span><span class="t">&lt;/li&gt;</span>
+        <span class="t">&lt;/ol&gt;</span>
+    <span class="t">&lt;/li&gt;</span>
+<span class="t">&lt;/ul&gt;</span></pre>
+        </div>
+        <p>결과: 바깥은 ● 점 목록, 안쪽은 1. 2. 번호 목록으로 표시됩니다.</p>
+    </div>
+</div>
+
+<!-- ===================================================================== -->
+<!-- SECTION 4 -->
+<!-- ===================================================================== -->
+<div class="section">
+    <div class="section-header">
+        <span class="section-number">04</span>
+        <h2 class="section-title">테이블 태그</h2>
+    </div>
+
+    <table class="tag-table">
+        <tr><th>태그</th><th>의미</th><th>영어</th></tr>
+        <tr><td>&lt;table&gt;</td><td>표 전체</td><td>table</td></tr>
+        <tr><td>&lt;thead&gt;</td><td>표의 머리 영역</td><td>table head</td></tr>
+        <tr><td>&lt;tbody&gt;</td><td>표의 몸통 영역</td><td>table body</td></tr>
+        <tr><td>&lt;tr&gt;</td><td>행 (가로줄 하나)</td><td>table row</td></tr>
+        <tr><td>&lt;th&gt;</td><td>제목 셀 (굵고 가운데 정렬)</td><td>table heading</td></tr>
+        <tr><td>&lt;td&gt;</td><td>일반 데이터 셀</td><td>table data</td></tr>
+    </table>
+
+    <div class="code-block">
+        <span class="filename">table_basic.html</span>
+<pre><span class="t">&lt;table</span> <span class="a">border=</span><span class="v">"1"</span><span class="t">&gt;</span>
+    <span class="t">&lt;thead&gt;</span>
+        <span class="t">&lt;tr&gt;</span>
+            <span class="t">&lt;th&gt;&lt;/th&gt;</span>
+            <span class="t">&lt;th&gt;</span><span class="tx">월</span><span class="t">&lt;/th&gt;</span>
+            <span class="t">&lt;th&gt;</span><span class="tx">화</span><span class="t">&lt;/th&gt;</span>
+            <span class="t">&lt;th&gt;</span><span class="tx">수</span><span class="t">&lt;/th&gt;</span>
+        <span class="t">&lt;/tr&gt;</span>
+    <span class="t">&lt;/thead&gt;</span>
+    <span class="t">&lt;tbody&gt;</span>
+        <span class="t">&lt;tr&gt;</span>
+            <span class="t">&lt;td&gt;</span><span class="tx">1교시</span><span class="t">&lt;/td&gt;</span>
+            <span class="t">&lt;td&gt;</span><span class="tx">영어</span><span class="t">&lt;/td&gt;</span>
+            <span class="t">&lt;td&gt;</span><span class="tx">국어</span><span class="t">&lt;/td&gt;</span>
+            <span class="t">&lt;td&gt;</span><span class="tx">과학</span><span class="t">&lt;/td&gt;</span>
+        <span class="t">&lt;/tr&gt;</span>
+    <span class="t">&lt;/tbody&gt;</span>
+<span class="t">&lt;/table&gt;</span></pre>
+    </div>
+
+    <div class="subsection">
+        <h3>셀 병합: colspan과 rowspan</h3>
+        <p><strong>colspan</strong> = 가로(열)로 셀 합치기, <strong>rowspan</strong> = 세로(행)로 셀 합치기</p>
+
+        <div class="code-block">
+            <span class="filename">table_span.html</span>
+<pre><span class="t">&lt;table</span> <span class="a">border=</span><span class="v">"1"</span><span class="t">&gt;</span>
+    <span class="t">&lt;tr&gt;</span>
+        <span class="t">&lt;th</span> <span class="a">colspan=</span><span class="v">"2"</span><span class="t">&gt;</span><span class="tx">지역별 홍차</span><span class="t">&lt;/th&gt;</span>   <span class="c">&lt;!-- 2칸 가로 병합 --&gt;</span>
+    <span class="t">&lt;/tr&gt;</span>
+    <span class="t">&lt;tr&gt;</span>
+        <span class="t">&lt;th</span> <span class="a">rowspan=</span><span class="v">"3"</span><span class="t">&gt;</span><span class="tx">중국</span><span class="t">&lt;/th&gt;</span>      <span class="c">&lt;!-- 3칸 세로 병합 --&gt;</span>
+        <span class="t">&lt;td&gt;</span><span class="tx">정산소종</span><span class="t">&lt;/td&gt;</span>
+    <span class="t">&lt;/tr&gt;</span>
+    <span class="t">&lt;tr&gt;&lt;td&gt;</span><span class="tx">기문</span><span class="t">&lt;/td&gt;&lt;/tr&gt;</span>              <span class="c">&lt;!-- 중국 셀이 차지하므로 td 1개만 --&gt;</span>
+    <span class="t">&lt;tr&gt;&lt;td&gt;</span><span class="tx">운남</span><span class="t">&lt;/td&gt;&lt;/tr&gt;</span>
+<span class="t">&lt;/table&gt;</span></pre>
+        </div>
+
+        <div class="box box-tip">
+            <p class="box-title">병합 시 주의</p>
+            <p>rowspan으로 셀을 세로 병합하면, 병합된 아래 행에서는 그 열에 해당하는 <code>&lt;td&gt;</code>를 적지 않습니다. 처음에 가장 헷갈리는 부분이니 직접 VS Code에서 여러 번 실습해 보세요.</p>
+        </div>
+    </div>
+</div>
+
+<!-- ===================================================================== -->
+<!-- SECTION 5 -->
+<!-- ===================================================================== -->
+<div class="section">
+    <div class="section-header">
+        <span class="section-number">05</span>
+        <h2 class="section-title">미디어 태그</h2>
+    </div>
+
+    <div class="subsection">
+        <h3>이미지 태그 (img)</h3>
+        <p><code>&lt;img&gt;</code>는 <strong>빈 태그</strong>입니다 (닫는 태그 없음). 반드시 <strong>src</strong>(경로)와 <strong>alt</strong>(대체 텍스트)를 넣어야 합니다.</p>
+
+        <table class="tag-table">
+            <tr><th>속성</th><th>의미</th><th>예시</th></tr>
+            <tr><td>src</td><td>이미지 파일 경로</td><td>"photo.jpg" 또는 웹 URL</td></tr>
+            <tr><td>alt</td><td>이미지가 안 뜰 때 대체 텍스트</td><td>"펭귄 사진"</td></tr>
+            <tr><td>width</td><td>가로 크기 (px 또는 %)</td><td>"300"</td></tr>
+            <tr><td>height</td><td>세로 크기</td><td>"200"</td></tr>
+        </table>
+
+        <div class="code-block">
+<pre><span class="t">&lt;img</span> <span class="a">src=</span><span class="v">"Penguins.jpg"</span> <span class="a">alt=</span><span class="v">"펭귄"</span> <span class="a">width=</span><span class="v">"300"</span><span class="t">&gt;</span>
+<span class="t">&lt;img</span> <span class="a">src=</span><span class="v">"Nothing.jpg"</span> <span class="a">alt=</span><span class="v">"그림이 존재하지 않습니다."</span><span class="t">&gt;</span></pre>
+        </div>
+
+        <div class="box box-warn">
+            <p class="box-title">alt 속성은 반드시 작성!</p>
+            <p>시각장애인을 위한 스크린 리더(Screen Reader)가 alt 텍스트를 읽어줍니다. 웹 접근성을 위해 <strong>반드시</strong> 넣어야 하며, 빈 문자열 <code>alt=""</code>이라도 넣는 것이 좋습니다.</p>
+        </div>
+    </div>
+
+    <div class="subsection">
+        <h3>오디오 & 비디오 태그</h3>
+        <p>HTML5에서 플러그인 없이 멀티미디어를 재생할 수 있습니다.</p>
+
+        <table class="tag-table">
+            <tr><th>속성</th><th>의미</th></tr>
+            <tr><td>src</td><td>파일 경로</td></tr>
+            <tr><td>controls</td><td>재생 컨트롤러 표시</td></tr>
+            <tr><td>autoplay</td><td>자동 재생</td></tr>
+            <tr><td>loop</td><td>반복 재생</td></tr>
+            <tr><td>preload</td><td>미리 데이터 불러올지 여부</td></tr>
+            <tr><td>poster (video만)</td><td>로딩 중 보여줄 이미지</td></tr>
+        </table>
+
+        <div class="code-block">
+            <span class="filename">media.html</span>
+<pre><span class="c">&lt;!-- 오디오 --&gt;</span>
+<span class="t">&lt;audio</span> <span class="a">controls</span><span class="t">&gt;</span>
+    <span class="t">&lt;source</span> <span class="a">src=</span><span class="v">"music.mp3"</span> <span class="a">type=</span><span class="v">"audio/mp3"</span><span class="t">&gt;</span>
+    <span class="t">&lt;source</span> <span class="a">src=</span><span class="v">"music.ogg"</span> <span class="a">type=</span><span class="v">"audio/ogg"</span><span class="t">&gt;</span>
+<span class="t">&lt;/audio&gt;</span>
+
+<span class="c">&lt;!-- 비디오 --&gt;</span>
+<span class="t">&lt;video</span> <span class="a">controls</span> <span class="a">poster=</span><span class="v">"thumbnail.jpg"</span><span class="t">&gt;</span>
+    <span class="t">&lt;source</span> <span class="a">src=</span><span class="v">"video.mp4"</span> <span class="a">type=</span><span class="v">"video/mp4"</span><span class="t">&gt;</span>
+    <span class="t">&lt;source</span> <span class="a">src=</span><span class="v">"video.webm"</span> <span class="a">type=</span><span class="v">"video/webm"</span><span class="t">&gt;</span>
+<span class="t">&lt;/video&gt;</span></pre>
+        </div>
+
+        <div class="box box-tip">
+            <p class="box-title">왜 source 태그를 여러 개 쓸까?</p>
+            <p>브라우저마다 지원하는 미디어 포맷이 다릅니다. mp3/mp4는 대부분 지원하지만, ogg/webm도 함께 넣으면 더 넓은 호환성을 확보할 수 있습니다.</p>
+        </div>
+    </div>
+</div>
+
+<!-- ===================================================================== -->
+<!-- SECTION 6 -->
+<!-- ===================================================================== -->
+<div class="section">
+    <div class="section-header">
+        <span class="section-number">06</span>
+        <h2 class="section-title">입력 양식 태그 (Form)</h2>
+    </div>
+
+    <div class="subsection">
+        <h3>form 태그 기본 구조</h3>
+        <p><code>&lt;form&gt;</code>으로 영역을 만들고, 내부에 <code>&lt;input&gt;</code> 등의 입력 요소를 배치합니다. 데이터를 입력 후 제출(submit) 버튼을 누르면 지정된 방식으로 서버에 전달됩니다.</p>
+
+        <table class="tag-table">
+            <tr><th>속성</th><th>의미</th><th>값 예시</th></tr>
+            <tr><td>method</td><td>전송 방식</td><td>"get" 또는 "post"</td></tr>
+            <tr><td>action</td><td>데이터 보낼 서버 주소</td><td>"/submit" 또는 URL</td></tr>
+        </table>
+
+        <div class="compare">
+            <div class="good">
+                <p class="label" style="color:#60a5fa">GET 방식</p>
+                <p style="font-size:0.85rem">URL 주소에 데이터가 붙어서 전송됩니다. 주소창에 <code>?search=값</code> 형태로 보입니다. 데이터 크기에 제한이 있고, 검색 등에 사용합니다.</p>
+            </div>
+            <div class="good">
+                <p class="label" style="color:#f87171">POST 방식</p>
+                <p style="font-size:0.85rem">URL 주소 변경 없이 데이터를 숨겨서 전송합니다. 용량 제한이 없고, 로그인/회원가입 등 보안이 필요한 곳에 사용합니다.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="subsection">
+        <h3>input 태그의 type 종류</h3>
+        <table class="tag-table">
+            <tr><th>type 값</th><th>결과</th><th>용도</th></tr>
+            <tr><td>text</td><td>한 줄 텍스트 입력칸</td><td>이름, 검색어 등</td></tr>
+            <tr><td>password</td><td>비밀번호 입력칸 (●●●)</td><td>비밀번호</td></tr>
+            <tr><td>checkbox</td><td>체크박스 ☑</td><td>여러 개 선택 가능</td></tr>
+            <tr><td>radio</td><td>라디오 버튼 ◉</td><td>여러 개 중 하나만 선택</td></tr>
+            <tr><td>file</td><td>파일 선택 버튼</td><td>파일 업로드</td></tr>
+            <tr><td>hidden</td><td>보이지 않는 입력</td><td>서버에 보낼 숨김 데이터</td></tr>
+            <tr><td>button</td><td>일반 버튼</td><td>JS 연동용</td></tr>
+            <tr><td>reset</td><td>초기화 버튼</td><td>form 내 입력값 리셋</td></tr>
+            <tr><td>submit</td><td>제출 버튼</td><td>form 데이터 서버 전송</td></tr>
+            <tr><td>image</td><td>이미지 형태 제출 버튼</td><td>커스텀 버튼</td></tr>
+            <tr><td>email</td><td>이메일 입력 (형식 검증)</td><td>이메일 주소</td></tr>
+            <tr><td>number</td><td>숫자 입력</td><td>수량 등</td></tr>
+            <tr><td>date</td><td>날짜 선택기</td><td>생년월일 등</td></tr>
+            <tr><td>range</td><td>슬라이더</td><td>볼륨, 점수 등</td></tr>
+            <tr><td>color</td><td>색상 선택기</td><td>색상 지정</td></tr>
+        </table>
+        <p class="dim">※ email, number, date, range, color는 PPT에 없지만 HTML5에서 추가된 중요 타입입니다.</p>
+    </div>
+
+    <div class="subsection">
+        <h3>label 태그 (입력 요소에 이름 붙이기)</h3>
+        <p><code>&lt;label&gt;</code>의 <code>for</code> 속성과 <code>&lt;input&gt;</code>의 <code>id</code> 속성을 일치시키면, 라벨 클릭 시 해당 입력란에 포커스가 갑니다.</p>
+
+        <div class="code-block">
+<pre><span class="t">&lt;label</span> <span class="a">for=</span><span class="v">"username"</span><span class="t">&gt;</span><span class="tx">이름</span><span class="t">&lt;/label&gt;</span>
+<span class="t">&lt;input</span> <span class="a">id=</span><span class="v">"username"</span> <span class="a">type=</span><span class="v">"text"</span> <span class="a">name=</span><span class="v">"username"</span><span class="t">&gt;</span></pre>
+        </div>
+    </div>
+
+    <div class="subsection">
+        <h3>라디오 버튼 (하나만 선택)</h3>
+        <p>같은 그룹의 라디오 버튼은 반드시 <strong>name 속성을 동일하게</strong> 설정해야 합니다.</p>
+
+        <div class="code-block">
+<pre><span class="t">&lt;input</span> <span class="a">id=</span><span class="v">"man"</span> <span class="a">type=</span><span class="v">"radio"</span> <span class="a">name=</span><span class="v">"gender"</span> <span class="a">value=</span><span class="v">"m"</span><span class="t">&gt;</span>
+<span class="t">&lt;label</span> <span class="a">for=</span><span class="v">"man"</span><span class="t">&gt;</span><span class="tx">남자</span><span class="t">&lt;/label&gt;</span>
+
+<span class="t">&lt;input</span> <span class="a">id=</span><span class="v">"woman"</span> <span class="a">type=</span><span class="v">"radio"</span> <span class="a">name=</span><span class="v">"gender"</span> <span class="a">value=</span><span class="v">"w"</span><span class="t">&gt;</span>
+<span class="t">&lt;label</span> <span class="a">for=</span><span class="v">"woman"</span><span class="t">&gt;</span><span class="tx">여자</span><span class="t">&lt;/label&gt;</span>
+<span class="c">&lt;!-- name="gender"가 같으므로 둘 중 하나만 선택됨 --&gt;</span></pre>
+        </div>
+    </div>
+
+    <div class="subsection">
+        <h3>select (드롭다운 선택)</h3>
+        <div class="code-block">
+<pre><span class="c">&lt;!-- 기본 선택 --&gt;</span>
+<span class="t">&lt;select&gt;</span>
+    <span class="t">&lt;option&gt;</span><span class="tx">김밥</span><span class="t">&lt;/option&gt;</span>
+    <span class="t">&lt;option&gt;</span><span class="tx">떡볶이</span><span class="t">&lt;/option&gt;</span>
+    <span class="t">&lt;option&gt;</span><span class="tx">순대</span><span class="t">&lt;/option&gt;</span>
+<span class="t">&lt;/select&gt;</span>
+
+<span class="c">&lt;!-- 다중 선택 (Ctrl+클릭) --&gt;</span>
+<span class="t">&lt;select</span> <span class="a">multiple</span><span class="t">&gt;</span> ... <span class="t">&lt;/select&gt;</span>
+
+<span class="c">&lt;!-- 그룹별 분류 --&gt;</span>
+<span class="t">&lt;select&gt;</span>
+    <span class="t">&lt;optgroup</span> <span class="a">label=</span><span class="v">"HTML5"</span><span class="t">&gt;</span>
+        <span class="t">&lt;option&gt;</span><span class="tx">Multimedia Tag</span><span class="t">&lt;/option&gt;</span>
+    <span class="t">&lt;/optgroup&gt;</span>
+    <span class="t">&lt;optgroup</span> <span class="a">label=</span><span class="v">"CSS3"</span><span class="t">&gt;</span>
+        <span class="t">&lt;option&gt;</span><span class="tx">Animation</span><span class="t">&lt;/option&gt;</span>
+    <span class="t">&lt;/optgroup&gt;</span>
+<span class="t">&lt;/select&gt;</span></pre>
+        </div>
+    </div>
+
+    <div class="subsection">
+        <h3>textarea, fieldset</h3>
+
+        <div class="code-block">
+<pre><span class="c">&lt;!-- 여러 줄 텍스트 입력 --&gt;</span>
+<span class="t">&lt;textarea</span> <span class="a">cols=</span><span class="v">"50"</span> <span class="a">rows=</span><span class="v">"5"</span><span class="t">&gt;</span><span class="tx">기본 텍스트</span><span class="t">&lt;/textarea&gt;</span>
+
+<span class="c">&lt;!-- 입력 양식 그룹 묶기 --&gt;</span>
+<span class="t">&lt;form&gt;</span>
+    <span class="t">&lt;fieldset&gt;</span>
+        <span class="t">&lt;legend&gt;</span><span class="tx">입력 양식</span><span class="t">&lt;/legend&gt;</span>
+        <span class="t">&lt;label</span> <span class="a">for=</span><span class="v">"name"</span><span class="t">&gt;</span><span class="tx">이름</span><span class="t">&lt;/label&gt;</span>
+        <span class="t">&lt;input</span> <span class="a">id=</span><span class="v">"name"</span> <span class="a">type=</span><span class="v">"text"</span><span class="t">&gt;</span>
+    <span class="t">&lt;/fieldset&gt;</span>
+<span class="t">&lt;/form&gt;</span></pre>
+        </div>
+
+        <div class="box box-warn">
+            <p class="box-title">textarea 주의사항</p>
+            <p>textarea 내부의 공백, 줄바꿈, 탭이 <strong>그대로 출력</strong>됩니다. 그래서 여는 태그 바로 뒤에 내용을 붙여 써야 합니다.</p>
+            <p>잘못: <code>&lt;textarea&gt;↵    내용&lt;/textarea&gt;</code> → 앞에 빈 줄과 공백이 보임</p>
+            <p>올바름: <code>&lt;textarea&gt;내용&lt;/textarea&gt;</code></p>
+        </div>
+    </div>
+</div>
+
+<!-- ===================================================================== -->
+<!-- SECTION 7 -->
+<!-- ===================================================================== -->
+<div class="section">
+    <div class="section-header">
+        <span class="section-number">07</span>
+        <h2 class="section-title">공간 분할 태그 (div, span)</h2>
+    </div>
+
+    <p>웹 페이지의 영역(범위)을 나누기 위한 태그입니다. 시각적 효과는 없고, CSS를 적용하기 위한 그릇 역할을 합니다.</p>
+
+    <div class="compare">
+        <div class="good">
+            <p class="label" style="color:#60a5fa">블록 형식: &lt;div&gt;</p>
+            <p style="font-size:0.85rem">한 행 전체를 차지합니다. 끝나면 자동 줄바꿈됩니다. h1~h6, p, ul/ol, table도 블록 요소입니다.</p>
+        </div>
+        <div class="good">
+            <p class="label" style="color:#f0b429">인라인 형식: &lt;span&gt;</p>
+            <p style="font-size:0.85rem">내용 크기만큼만 차지합니다. 줄바꿈 없이 옆으로 이어집니다. a, input, b, i 등도 인라인 요소입니다.</p>
+        </div>
+    </div>
+
+    <div class="code-block">
+<pre><span class="c">&lt;!-- 블록: 각 div가 한 줄씩 차지 --&gt;</span>
+<span class="t">&lt;div&gt;</span><span class="tx">첫 번째 블록</span><span class="t">&lt;/div&gt;</span>
+<span class="t">&lt;div&gt;</span><span class="tx">두 번째 블록</span><span class="t">&lt;/div&gt;</span>
+
+<span class="c">&lt;!-- 인라인: 옆으로 나란히 표시 --&gt;</span>
+<span class="t">&lt;span&gt;</span><span class="tx">첫 번째</span><span class="t">&lt;/span&gt;</span>
+<span class="t">&lt;span&gt;</span><span class="tx">두 번째</span><span class="t">&lt;/span&gt;</span></pre>
+    </div>
+
+    <div class="box box-tip">
+        <p class="box-title">블록 vs 인라인 태그 구분 (외워두면 좋음)</p>
+        <p>블록 형식: <code>div</code>, <code>h1~h6</code>, <code>p</code>, <code>ul/ol</code>, <code>table</code>, <code>form</code></p>
+        <p>인라인 형식: <code>span</code>, <code>a</code>, <code>input</code>, <code>b</code>, <code>i</code>, <code>img</code>, <code>strong</code>, <code>em</code></p>
+    </div>
+</div>
+
+<!-- ===================================================================== -->
+<!-- SECTION 8 -->
+<!-- ===================================================================== -->
+<div class="section">
+    <div class="section-header">
+        <span class="section-number">08</span>
+        <h2 class="section-title">시맨틱 태그 (HTML5 구조화)</h2>
+    </div>
+
+    <p><strong>시맨틱(semantic)</strong>이란 "의미가 있는"이라는 뜻입니다. HTML5 이전에는 모든 영역을 <code>&lt;div&gt;</code>로만 나눴기 때문에 코드만 봐서는 어디가 메뉴이고 어디가 본문인지 알 수 없었습니다. 시맨틱 태그를 사용하면 코드에 의미가 부여되어 검색엔진과 스크린 리더가 구조를 이해할 수 있습니다.</p>
+
+    <table class="tag-table">
+        <tr><th>태그</th><th>역할</th><th>위치</th></tr>
+        <tr><td>&lt;header&gt;</td><td>머리말 (페이지 제목, 로고, 소개)</td><td>페이지 최상단</td></tr>
+        <tr><td>&lt;nav&gt;</td><td>내비게이션 (메뉴 링크 모음)</td><td>header 아래 또는 옆</td></tr>
+        <tr><td>&lt;section&gt;</td><td>본문의 장(chapter)이나 절</td><td>본문 영역</td></tr>
+        <tr><td>&lt;article&gt;</td><td>독립적인 콘텐츠 하나</td><td>section 내부</td></tr>
+        <tr><td>&lt;aside&gt;</td><td>본문 흐름과 벗어나는 노트, 사이드바</td><td>양쪽 사이드</td></tr>
+        <tr><td>&lt;footer&gt;</td><td>꼬리말 (저작권, 연락처 정보)</td><td>페이지 최하단</td></tr>
+    </table>
+
+    <div class="compare">
+        <div class="bad">
+            <p class="label">이전 방식 (div만 사용)</p>
+            <div class="code-block" style="margin:0">
+<pre><span class="t">&lt;div&gt;</span><span class="t">&lt;h1&gt;</span>제목<span class="t">&lt;/h1&gt;&lt;/div&gt;</span>
+<span class="t">&lt;div&gt;</span><span class="t">&lt;ul&gt;</span>메뉴...<span class="t">&lt;/ul&gt;&lt;/div&gt;</span>
+<span class="t">&lt;div&gt;</span>본문...<span class="t">&lt;/div&gt;</span>
+<span class="t">&lt;div&gt;</span>주소...<span class="t">&lt;/div&gt;</span></pre>
+            </div>
+        </div>
+        <div class="good">
+            <p class="label">HTML5 방식 (시맨틱 태그)</p>
+            <div class="code-block" style="margin:0">
+<pre><span class="t">&lt;header&gt;</span><span class="t">&lt;h1&gt;</span>제목<span class="t">&lt;/h1&gt;&lt;/header&gt;</span>
+<span class="t">&lt;nav&gt;</span><span class="t">&lt;ul&gt;</span>메뉴...<span class="t">&lt;/ul&gt;&lt;/nav&gt;</span>
+<span class="t">&lt;section&gt;</span>본문...<span class="t">&lt;/section&gt;</span>
+<span class="t">&lt;footer&gt;</span>주소...<span class="t">&lt;/footer&gt;</span></pre>
+            </div>
+        </div>
+    </div>
+
+    <div class="box box-tip">
+        <p class="box-title">시맨틱 태그를 써야 하는 이유</p>
+        <p>1. 검색엔진(Google)이 페이지 구조를 더 잘 이해하여 검색 순위에 유리합니다 (SEO).</p>
+        <p>2. 시각장애인용 스크린 리더가 "여기는 내비게이션", "여기는 본문"을 구분할 수 있습니다.</p>
+        <p>3. 코드 가독성이 좋아져 팀 협업 시 유지보수가 쉬워집니다.</p>
+        <p>4. 시맨틱 태그도 기능적으로는 <code>&lt;div&gt;</code>와 동일합니다 (블록 요소). 차이는 "의미"뿐입니다.</p>
+    </div>
+</div>
+
+<!-- ===================================================================== -->
+<!-- SECTION 9 -->
+<!-- ===================================================================== -->
+<div class="section">
+    <div class="section-header">
+        <span class="section-number">09</span>
+        <h2 class="section-title">VS Code 실습 팁 + 추가 보충 내용</h2>
+    </div>
+
+    <div class="subsection">
+        <h3>VS Code 필수 단축키 & Emmet</h3>
+        <p>VS Code에는 <strong>Emmet</strong>이라는 자동완성 기능이 내장되어 있어 코드를 빠르게 작성할 수 있습니다.</p>
+
+        <table class="tag-table">
+            <tr><th>입력</th><th>Tab 누르면</th><th>설명</th></tr>
+            <tr><td>!</td><td>HTML5 기본 골격 전체</td><td>가장 많이 사용!</td></tr>
+            <tr><td>h1</td><td>&lt;h1&gt;&lt;/h1&gt;</td><td>태그 이름만 입력</td></tr>
+            <tr><td>ul>li*3</td><td>ul 안에 li 3개 생성</td><td>&gt;는 자식, *은 반복</td></tr>
+            <tr><td>div.container</td><td>&lt;div class="container"&gt;</td><td>.은 클래스 추가</td></tr>
+            <tr><td>div#main</td><td>&lt;div id="main"&gt;</td><td>#은 아이디 추가</td></tr>
+            <tr><td>a[href=#]</td><td>&lt;a href="#"&gt;</td><td>[]로 속성 지정</td></tr>
+            <tr><td>p{Hello}</td><td>&lt;p&gt;Hello&lt;/p&gt;</td><td>{}로 텍스트 삽입</td></tr>
+            <tr><td>table>tr*3>td*4</td><td>3행 4열 표</td><td>중첩 조합 가능</td></tr>
+        </table>
+
+        <div class="box box-practice">
+            <p class="box-title">VS Code 핵심 단축키 (외워두세요!)</p>
+            <p><strong>Alt + Shift + 아래화살표</strong> → 현재 줄 복사</p>
+            <p><strong>Ctrl + D</strong> → 같은 단어 다중 선택</p>
+            <p><strong>Alt + 위/아래 화살표</strong> → 현재 줄 이동</p>
+            <p><strong>Ctrl + /</strong> → 주석 토글 (한 줄 주석 달기/풀기)</p>
+            <p><strong>Ctrl + Shift + P</strong> → 명령 팔레트 열기</p>
+        </div>
+    </div>
+
+    <div class="subsection">
+        <h3>추가 필수 확장(Extension) 설치</h3>
+        <p>VS Code의 Extensions 탭(Ctrl+Shift+X)에서 아래 확장을 검색하여 설치하세요.</p>
+
+        <table class="tag-table">
+            <tr><th>확장 이름</th><th>기능</th></tr>
+            <tr><td>Live Server</td><td>HTML 파일 수정 시 브라우저에서 실시간 자동 새로고침. 마우스 우클릭 → "Open with Live Server"로 실행</td></tr>
+            <tr><td>Auto Rename Tag</td><td>여는 태그 수정 시 닫는 태그 자동 변경</td></tr>
+            <tr><td>Prettier</td><td>코드 자동 정렬 (저장 시 예쁘게 포맷팅)</td></tr>
+            <tr><td>HTML CSS Support</td><td>HTML에서 CSS 클래스명 자동완성</td></tr>
+            <tr><td>Korean Language Pack</td><td>VS Code 한국어 인터페이스</td></tr>
+        </table>
+    </div>
+
+    <div class="subsection">
+        <h3>PPT에 없지만 꼭 알아야 할 추가 태그/개념</h3>
+
+        <table class="tag-table">
+            <tr><th>태그/개념</th><th>설명</th><th>예시</th></tr>
+            <tr><td>&lt;meta viewport&gt;</td><td>모바일 반응형 필수 메타태그</td><td>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</td></tr>
+            <tr><td>&lt;strong&gt;</td><td>의미 있는 굵은 글자 (b보다 권장)</td><td>&lt;strong&gt;중요&lt;/strong&gt;</td></tr>
+            <tr><td>&lt;em&gt;</td><td>의미 있는 기울임 (i보다 권장)</td><td>&lt;em&gt;강조&lt;/em&gt;</td></tr>
+            <tr><td>&lt;main&gt;</td><td>문서의 주요 콘텐츠 영역 (1개만)</td><td>시맨틱 태그, 접근성 향상</td></tr>
+            <tr><td>&lt;figure&gt; + &lt;figcaption&gt;</td><td>이미지와 설명을 묶는 시맨틱 태그</td><td>이미지 캡션 달 때 사용</td></tr>
+            <tr><td>주석</td><td>코드에 메모 (브라우저에 안 보임)</td><td>&lt;!-- 여기에 메모 --&gt;</td></tr>
+            <tr><td>class 속성</td><td>CSS 스타일 적용을 위한 분류명</td><td>&lt;div class="box"&gt; (여러 요소에 동일 class 가능)</td></tr>
+            <tr><td>id 속성</td><td>고유 식별자 (페이지 내 하나만)</td><td>&lt;div id="header"&gt; (JS, 앵커에서 활용)</td></tr>
+        </table>
+    </div>
+
+    <div class="subsection">
+        <h3>VS Code 종합 실습 예제</h3>
+        <p>아래 코드를 VS Code에서 직접 타이핑하며 연습해 보세요. 이 하나의 파일에 오늘 배운 거의 모든 태그가 들어있습니다.</p>
+
+        <div class="code-block">
+            <span class="filename">practice_all.html</span>
+<pre><span class="t">&lt;!DOCTYPE html&gt;</span>
+<span class="t">&lt;html</span> <span class="a">lang=</span><span class="v">"ko"</span><span class="t">&gt;</span>
+<span class="t">&lt;head&gt;</span>
+    <span class="t">&lt;meta</span> <span class="a">charset=</span><span class="v">"UTF-8"</span><span class="t">&gt;</span>
+    <span class="t">&lt;meta</span> <span class="a">name=</span><span class="v">"viewport"</span> <span class="a">content=</span><span class="v">"width=device-width, initial-scale=1.0"</span><span class="t">&gt;</span>
+    <span class="t">&lt;title&gt;</span><span class="tx">HTML5 종합 연습</span><span class="t">&lt;/title&gt;</span>
+<span class="t">&lt;/head&gt;</span>
+<span class="t">&lt;body&gt;</span>
+
+    <span class="c">&lt;!-- 1. 시맨틱 구조: header --&gt;</span>
+    <span class="t">&lt;header&gt;</span>
+        <span class="t">&lt;h1&gt;</span><span class="tx">나의 첫 번째 웹 페이지</span><span class="t">&lt;/h1&gt;</span>
+        <span class="t">&lt;p&gt;</span><span class="tx">HTML5를 배우는 중입니다!</span><span class="t">&lt;/p&gt;</span>
+    <span class="t">&lt;/header&gt;</span>
+
+    <span class="t">&lt;hr&gt;</span>
+
+    <span class="c">&lt;!-- 2. 내비게이션 --&gt;</span>
+    <span class="t">&lt;nav&gt;</span>
+        <span class="t">&lt;ul&gt;</span>
+            <span class="t">&lt;li&gt;&lt;a</span> <span class="a">href=</span><span class="v">"#intro"</span><span class="t">&gt;</span><span class="tx">소개</span><span class="t">&lt;/a&gt;&lt;/li&gt;</span>
+            <span class="t">&lt;li&gt;&lt;a</span> <span class="a">href=</span><span class="v">"#menu"</span><span class="t">&gt;</span><span class="tx">메뉴</span><span class="t">&lt;/a&gt;&lt;/li&gt;</span>
+            <span class="t">&lt;li&gt;&lt;a</span> <span class="a">href=</span><span class="v">"#contact"</span><span class="t">&gt;</span><span class="tx">연락처</span><span class="t">&lt;/a&gt;&lt;/li&gt;</span>
+        <span class="t">&lt;/ul&gt;</span>
+    <span class="t">&lt;/nav&gt;</span>
+
+    <span class="c">&lt;!-- 3. 본문 섹션 --&gt;</span>
+    <span class="t">&lt;section&gt;</span>
+        <span class="t">&lt;article</span> <span class="a">id=</span><span class="v">"intro"</span><span class="t">&gt;</span>
+            <span class="t">&lt;h2&gt;</span><span class="tx">자기소개</span><span class="t">&lt;/h2&gt;</span>
+            <span class="t">&lt;p&gt;</span><span class="tx">안녕하세요. </span><span class="t">&lt;strong&gt;</span><span class="tx">풀스택 개발자</span><span class="t">&lt;/strong&gt;</span><span class="tx">를 꿈꾸고 있습니다.</span><span class="t">&lt;/p&gt;</span>
+            <span class="t">&lt;p&gt;</span><span class="tx">좋아하는 과목: HTML &gt; CSS &gt; JavaScript</span><span class="t">&lt;/p&gt;</span>
+            <span class="t">&lt;img</span> <span class="a">src=</span><span class="v">"https://placehold.co/300x200"</span> <span class="a">alt=</span><span class="v">"프로필 이미지"</span><span class="t">&gt;</span>
+        <span class="t">&lt;/article&gt;</span>
+
+        <span class="t">&lt;article</span> <span class="a">id=</span><span class="v">"menu"</span><span class="t">&gt;</span>
+            <span class="t">&lt;h2&gt;</span><span class="tx">좋아하는 음식</span><span class="t">&lt;/h2&gt;</span>
+            <span class="t">&lt;table</span> <span class="a">border=</span><span class="v">"1"</span><span class="t">&gt;</span>
+                <span class="t">&lt;thead&gt;</span>
+                    <span class="t">&lt;tr&gt;</span>
+                        <span class="t">&lt;th&gt;</span><span class="tx">분류</span><span class="t">&lt;/th&gt;</span>
+                        <span class="t">&lt;th&gt;</span><span class="tx">음식 이름</span><span class="t">&lt;/th&gt;</span>
+                        <span class="t">&lt;th&gt;</span><span class="tx">점수</span><span class="t">&lt;/th&gt;</span>
+                    <span class="t">&lt;/tr&gt;</span>
+                <span class="t">&lt;/thead&gt;</span>
+                <span class="t">&lt;tbody&gt;</span>
+                    <span class="t">&lt;tr&gt;</span>
+                        <span class="t">&lt;td</span> <span class="a">rowspan=</span><span class="v">"2"</span><span class="t">&gt;</span><span class="tx">한식</span><span class="t">&lt;/td&gt;</span>
+                        <span class="t">&lt;td&gt;</span><span class="tx">김치찌개</span><span class="t">&lt;/td&gt;</span>
+                        <span class="t">&lt;td&gt;</span><span class="tx">5점</span><span class="t">&lt;/td&gt;</span>
+                    <span class="t">&lt;/tr&gt;</span>
+                    <span class="t">&lt;tr&gt;</span>
+                        <span class="t">&lt;td&gt;</span><span class="tx">비빔밥</span><span class="t">&lt;/td&gt;</span>
+                        <span class="t">&lt;td&gt;</span><span class="tx">4점</span><span class="t">&lt;/td&gt;</span>
+                    <span class="t">&lt;/tr&gt;</span>
+                <span class="t">&lt;/tbody&gt;</span>
+            <span class="t">&lt;/table&gt;</span>
+        <span class="t">&lt;/article&gt;</span>
+    <span class="t">&lt;/section&gt;</span>
+
+    <span class="c">&lt;!-- 4. 입력 양식 --&gt;</span>
+    <span class="t">&lt;section</span> <span class="a">id=</span><span class="v">"contact"</span><span class="t">&gt;</span>
+        <span class="t">&lt;h2&gt;</span><span class="tx">연락하기</span><span class="t">&lt;/h2&gt;</span>
+        <span class="t">&lt;form</span> <span class="a">method=</span><span class="v">"post"</span><span class="t">&gt;</span>
+            <span class="t">&lt;fieldset&gt;</span>
+                <span class="t">&lt;legend&gt;</span><span class="tx">문의 양식</span><span class="t">&lt;/legend&gt;</span>
+
+                <span class="t">&lt;label</span> <span class="a">for=</span><span class="v">"name"</span><span class="t">&gt;</span><span class="tx">이름:</span><span class="t">&lt;/label&gt;</span>
+                <span class="t">&lt;input</span> <span class="a">id=</span><span class="v">"name"</span> <span class="a">type=</span><span class="v">"text"</span><span class="t">&gt;&lt;br&gt;&lt;br&gt;</span>
+
+                <span class="t">&lt;label</span> <span class="a">for=</span><span class="v">"email"</span><span class="t">&gt;</span><span class="tx">이메일:</span><span class="t">&lt;/label&gt;</span>
+                <span class="t">&lt;input</span> <span class="a">id=</span><span class="v">"email"</span> <span class="a">type=</span><span class="v">"email"</span><span class="t">&gt;&lt;br&gt;&lt;br&gt;</span>
+
+                <span class="t">&lt;label&gt;</span><span class="tx">주제:</span><span class="t">&lt;/label&gt;</span>
+                <span class="t">&lt;select&gt;</span>
+                    <span class="t">&lt;option&gt;</span><span class="tx">일반 문의</span><span class="t">&lt;/option&gt;</span>
+                    <span class="t">&lt;option&gt;</span><span class="tx">수업 관련</span><span class="t">&lt;/option&gt;</span>
+                    <span class="t">&lt;option&gt;</span><span class="tx">기타</span><span class="t">&lt;/option&gt;</span>
+                <span class="t">&lt;/select&gt;&lt;br&gt;&lt;br&gt;</span>
+
+                <span class="t">&lt;label</span> <span class="a">for=</span><span class="v">"msg"</span><span class="t">&gt;</span><span class="tx">메시지:</span><span class="t">&lt;/label&gt;&lt;br&gt;</span>
+                <span class="t">&lt;textarea</span> <span class="a">id=</span><span class="v">"msg"</span> <span class="a">cols=</span><span class="v">"40"</span> <span class="a">rows=</span><span class="v">"5"</span><span class="t">&gt;</span><span class="tx">여기에 메시지를 입력하세요.</span><span class="t">&lt;/textarea&gt;&lt;br&gt;&lt;br&gt;</span>
+
+                <span class="t">&lt;input</span> <span class="a">type=</span><span class="v">"submit"</span> <span class="a">value=</span><span class="v">"보내기"</span><span class="t">&gt;</span>
+                <span class="t">&lt;input</span> <span class="a">type=</span><span class="v">"reset"</span> <span class="a">value=</span><span class="v">"초기화"</span><span class="t">&gt;</span>
+            <span class="t">&lt;/fieldset&gt;</span>
+        <span class="t">&lt;/form&gt;</span>
+    <span class="t">&lt;/section&gt;</span>
+
+    <span class="c">&lt;!-- 5. 푸터 --&gt;</span>
+    <span class="t">&lt;footer&gt;</span>
+        <span class="t">&lt;p&gt;</span><span class="tx">&amp;copy; 2026 나의 웹사이트. All rights reserved.</span><span class="t">&lt;/p&gt;</span>
+    <span class="t">&lt;/footer&gt;</span>
+
+<span class="t">&lt;/body&gt;</span>
+<span class="t">&lt;/html&gt;</span></pre>
+        </div>
+    </div>
+
+    <div class="subsection">
+        <h3>학습 로드맵: 다음 단계는?</h3>
+        <div class="box box-practice">
+            <p class="box-title">Frontend 학습 순서</p>
+            <p><strong>1단계 (현재)</strong> → HTML5: 웹 페이지의 뼈대(구조)를 만드는 법</p>
+            <p><strong>2단계</strong> → CSS3: 뼈대에 색상, 크기, 레이아웃 등 디자인 입히기</p>
+            <p><strong>3단계</strong> → JavaScript: 웹 페이지에 동적인 기능 추가 (클릭, 애니메이션 등)</p>
+            <p><strong>4단계</strong> → React / Vue: 대규모 웹 애플리케이션 개발 프레임워크</p>
+            <p><strong>5단계</strong> → Node.js / Spring: 백엔드까지 = Fullstack 개발자!</p>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    <p>HTML5 학습 가이드 | K-디지털 트레이닝 강의 기반 + 추가 보충 정리</p>
+    <p>VS Code에서 직접 타이핑하며 연습하는 것이 가장 빠른 길입니다!</p>
+</div>
+
+</body>
+</html>
